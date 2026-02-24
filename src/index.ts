@@ -4,6 +4,7 @@ export { createPayment } from "./lib/payment.js";
 export { makeAuthenticatedRequest } from "./lib/request.js";
 
 export type {
+  Hex,
   WalletInfo,
   SignSiweOptions,
   CreatePaymentOptions,

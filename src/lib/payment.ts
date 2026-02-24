@@ -4,10 +4,10 @@ import { privateKeyToAccount } from "viem/accounts";
 import { ExactEvmScheme, toClientEvmSigner } from "@x402/evm";
 import { x402Client } from "@x402/core/client";
 import { decodePaymentRequiredHeader, encodePaymentSignatureHeader } from "@x402/core/http";
-import type { CreatePaymentOptions } from "../types.js";
+import type { CreatePaymentOptions, Hex } from "../types.js";
 import { normalizePrivateKey } from "./wallet.js";
 
-export function buildX402Client(privateKey: `0x${string}`) {
+export function buildX402Client(privateKey: Hex) {
   const account = privateKeyToAccount(privateKey);
 
   const publicClient = createPublicClient({

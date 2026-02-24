@@ -1,6 +1,8 @@
+export type Hex = `0x${string}`;
+
 export interface WalletInfo {
-  privateKey: `0x${string}`;
-  address: `0x${string}`;
+  privateKey: Hex;
+  address: Hex;
 }
 
 export interface SignSiweOptions {
