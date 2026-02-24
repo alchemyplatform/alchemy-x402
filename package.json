@@ -1,5 +1,5 @@
 {
-  "name": "alchemy-x402",
+  "name": "@alchemy/x402",
   "version": "0.1.0",
   "description": "CLI and library for Alchemy x402 authentication and payments",
   "type": "module",
