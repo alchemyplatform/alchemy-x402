@@ -37,8 +37,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           pnpm run version-packages
+          VERSION=$(node -p "require('./package.json').version")
           git add -A
-          git commit -m "chore: version packages"
+          git commit -m "chore: release v${VERSION}"
           git push
           pnpm run release
         env:
