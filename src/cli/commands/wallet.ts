@@ -16,7 +16,10 @@ walletCommand
 walletCommand
   .command("import")
   .description("Import an existing wallet and display its address")
-  .requiredOption("--private-key <key>", "Wallet private key")
+  .requiredOption(
+    "--private-key <key-or-path>",
+    "Wallet private key (hex string or path to a key file)",
+  )
   .action((opts) => {
     const address = getWalletAddress(opts.privateKey);
     console.log(JSON.stringify({ address }, null, 2));

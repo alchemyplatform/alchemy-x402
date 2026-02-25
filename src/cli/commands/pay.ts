@@ -3,7 +3,10 @@ import { createPayment } from "../../lib/payment.js";
 
 export const payCommand = new Command("pay")
   .description("Create an x402 payment from a PAYMENT-REQUIRED header")
-  .requiredOption("--private-key <key>", "Wallet private key")
+  .requiredOption(
+    "--private-key <key-or-path>",
+    "Wallet private key (hex string or path to a key file)",
+  )
   .requiredOption(
     "--payment-required <header>",
     "Raw PAYMENT-REQUIRED header value",
