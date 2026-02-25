@@ -64,9 +64,8 @@ For full request orchestration with automatic 402 payment handling, use `buildX4
 ```ts
 import { buildX402Client, signSiwe } from "@alchemy/x402";
 import { wrapFetchWithPayment } from "@x402/fetch";
-import { normalizePrivateKey } from "@alchemy/x402";
 
-const privateKey = "0x<private-key>";
+const privateKey = "0x<private-key>" as const;
 const client = buildX402Client(privateKey);
 const siweToken = await signSiwe({ privateKey });
 
