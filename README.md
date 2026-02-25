@@ -136,9 +136,8 @@ Select the semver bump type (patch/minor/major) and describe the change. Commit 
 
 ### Release flow
 
-1. Merge PRs with changeset files to `main`
-2. CI automatically opens a "Version Packages" PR that bumps the version and updates `CHANGELOG.md`
-3. Merge the version PR to publish to npm
+1. Merge a PR with changeset files to `main`
+2. CI automatically bumps the version, updates `CHANGELOG.md`, commits, and publishes to npm
 
 ### Secrets
 
