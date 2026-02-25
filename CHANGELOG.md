@@ -1,5 +1,11 @@
 # @alchemy/x402
 
+## 0.3.0
+
+### Minor Changes
+
+- [#8](https://github.com/alchemyplatform/alchemy-x402/pull/8) [`f04bc21`](https://github.com/alchemyplatform/alchemy-x402/commit/f04bc21b9e9320ab4ba9f425e51d4f257626c0ae) Thanks [@hmvien](https://github.com/hmvien)! - Fix README CLI examples to use `npx @alchemy/x402` instead of `npx alchemy-x402`
+
 ## 0.2.0
 
 ### Minor Changes
