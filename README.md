@@ -99,3 +99,27 @@ npm run build
 npm run typecheck
 npm test
 ```
+
+## Publishing
+
+This project uses [Changesets](https://github.com/changesets/changesets) for versioning and publishing.
+
+### Adding a changeset
+
+When your PR includes a user-facing change, add a changeset:
+
+```bash
+npm run changeset
+```
+
+Select the semver bump type (patch/minor/major) and describe the change. Commit the generated `.changeset/*.md` file with your PR.
+
+### Release flow
+
+1. Merge PRs with changeset files to `main`
+2. The CI automatically opens a "Version Packages" PR that bumps the version and updates `CHANGELOG.md`
+3. Merge the version PR to publish to npm
+
+### Setup
+
+Add an `NPM_TOKEN` secret to the repo (**Settings > Secrets and variables > Actions**) with a token from [npmjs.com](https://www.npmjs.com/settings/~/tokens).
