@@ -1,34 +1,56 @@
-import { describe, it, expect, afterEach } from "vitest";
-import { writeFileSync, unlinkSync } from "fs";
-import { join } from "path";
-import { tmpdir } from "os";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import * as fs from "fs";
 import { resolvePrivateKey, normalizePrivateKey, generateWallet, getWalletAddress } from "./wallet.js";
+
+vi.mock("fs", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("fs")>();
+  return {
+    ...actual,
+    existsSync: vi.fn(),
+    readFileSync: vi.fn(),
+  };
+});
+
+const existsSyncSpy = vi.mocked(fs.existsSync);
+const readFileSyncSpy = vi.mocked(fs.readFileSync);
 
 const TEST_KEY = "ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 const TEST_KEY_0X = `0x${TEST_KEY}`;
 const TEST_ADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 
+beforeEach(() => {
+  existsSyncSpy.mockReset();
+  readFileSyncSpy.mockReset();
+});
+
 describe("resolvePrivateKey", () => {
-  it("returns 0x-prefixed key as-is", () => {
+  it("returns 0x-prefixed key without touching fs", () => {
     expect(resolvePrivateKey(TEST_KEY_0X)).toBe(TEST_KEY_0X);
+    expect(existsSyncSpy).not.toHaveBeenCalled();
+    expect(readFileSyncSpy).not.toHaveBeenCalled();
   });
 
-  it("returns raw 64-char hex as-is", () => {
+  it("returns raw 64-char hex without touching fs", () => {
     expect(resolvePrivateKey(TEST_KEY)).toBe(TEST_KEY);
+    expect(existsSyncSpy).not.toHaveBeenCalled();
+    expect(readFileSyncSpy).not.toHaveBeenCalled();
   });
 
   it("reads key from file path", () => {
-    const path = join(tmpdir(), `test-pk-${Date.now()}.txt`);
-    writeFileSync(path, `${TEST_KEY_0X}\n`);
-    try {
-      expect(resolvePrivateKey(path)).toBe(TEST_KEY_0X);
-    } finally {
-      unlinkSync(path);
-    }
+    existsSyncSpy.mockReturnValue(true);
+    readFileSyncSpy.mockReturnValue(`${TEST_KEY_0X}\n`);
+
+    expect(resolvePrivateKey("/fake/keyfile")).toBe(TEST_KEY_0X);
+    expect(existsSyncSpy).toHaveBeenCalledWith("/fake/keyfile");
+    expect(readFileSyncSpy).toHaveBeenCalledWith("/fake/keyfile", "utf-8");
   });
 
   it("returns non-hex, non-file string as-is", () => {
+    existsSyncSpy.mockReturnValue(false);
+
     expect(resolvePrivateKey("not-a-key")).toBe("not-a-key");
+    expect(existsSyncSpy).toHaveBeenCalledWith("not-a-key");
+    expect(readFileSyncSpy).not.toHaveBeenCalled();
   });
 });
 
@@ -42,13 +64,12 @@ describe("normalizePrivateKey", () => {
   });
 
   it("resolves file path and normalizes", () => {
-    const path = join(tmpdir(), `test-pk-${Date.now()}.txt`);
-    writeFileSync(path, TEST_KEY);
-    try {
-      expect(normalizePrivateKey(path)).toBe(TEST_KEY_0X);
-    } finally {
-      unlinkSync(path);
-    }
+    existsSyncSpy.mockReturnValue(true);
+    readFileSyncSpy.mockReturnValue(TEST_KEY);
+
+    expect(normalizePrivateKey("/fake/keyfile")).toBe(TEST_KEY_0X);
+    expect(existsSyncSpy).toHaveBeenCalledWith("/fake/keyfile");
+    expect(readFileSyncSpy).toHaveBeenCalledWith("/fake/keyfile", "utf-8");
   });
 });
 
@@ -77,12 +98,11 @@ describe("getWalletAddress", () => {
   });
 
   it("derives correct address from file path", () => {
-    const path = join(tmpdir(), `test-pk-${Date.now()}.txt`);
-    writeFileSync(path, TEST_KEY_0X);
-    try {
-      expect(getWalletAddress(path)).toBe(TEST_ADDRESS);
-    } finally {
-      unlinkSync(path);
-    }
+    existsSyncSpy.mockReturnValue(true);
+    readFileSyncSpy.mockReturnValue(TEST_KEY_0X);
+
+    expect(getWalletAddress("/fake/keyfile")).toBe(TEST_ADDRESS);
+    expect(existsSyncSpy).toHaveBeenCalledWith("/fake/keyfile");
+    expect(readFileSyncSpy).toHaveBeenCalledWith("/fake/keyfile", "utf-8");
   });
 });
