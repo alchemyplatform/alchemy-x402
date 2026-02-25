@@ -4,11 +4,12 @@ import { privateKeyToAccount } from "viem/accounts";
 import { ExactEvmScheme, toClientEvmSigner } from "@x402/evm";
 import { x402Client } from "@x402/core/client";
 import { decodePaymentRequiredHeader, encodePaymentSignatureHeader } from "@x402/core/http";
-import type { CreatePaymentOptions, Hex } from "../types.js";
+import type { CreatePaymentOptions } from "../types.js";
 import { normalizePrivateKey } from "./wallet.js";
 
-export function buildX402Client(privateKey: Hex) {
-  const account = privateKeyToAccount(privateKey);
+export function buildX402Client(privateKey: string) {
+  const normalized = normalizePrivateKey(privateKey);
+  const account = privateKeyToAccount(normalized);
 
   const publicClient = createPublicClient({
     chain: base,
@@ -33,8 +34,7 @@ export function buildX402Client(privateKey: Hex) {
 }
 
 export async function createPayment(opts: CreatePaymentOptions): Promise<string> {
-  const normalized = normalizePrivateKey(opts.privateKey);
-  const client = buildX402Client(normalized);
+  const client = buildX402Client(opts.privateKey);
   const paymentRequired = decodePaymentRequiredHeader(opts.paymentRequiredHeader);
   const payload = await client.createPaymentPayload(paymentRequired);
   return encodePaymentSignatureHeader(payload);
