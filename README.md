@@ -5,7 +5,7 @@ CLI and library for Alchemy x402 authentication and payments. Handles SIWE (Sign
 ## Install
 
 ```bash
-npm install @alchemy/x402
+pnpm add @alchemy/x402
 ```
 
 ## CLI
@@ -92,23 +92,44 @@ All commands and functions accept private keys as:
 
 ## Development
 
+### Prerequisites
+
+- Node.js >= 20
+- [pnpm](https://pnpm.io/)
+
+**Option A** — [mise](https://mise.jdx.dev/) (recommended, installs both Node and pnpm from `.tool-versions`):
+
 ```bash
-npm install
-npm run build
-npm run typecheck
-npm test
+mise install
 ```
 
-## Publishing
+**Option B** — [corepack](https://nodejs.org/api/corepack.html) (ships with Node, reads `packageManager` from package.json):
 
-This project uses [Changesets](https://github.com/changesets/changesets) for versioning and publishing.
+```bash
+corepack enable
+```
+
+### Getting started
+
+```bash
+git clone git@github.com:alchemyplatform/alchemy-x402.git
+cd alchemy-x402
+pnpm install
+pnpm run build
+pnpm run typecheck
+pnpm test
+```
+
+## For maintainers
 
 ### Adding a changeset
+
+This project uses [Changesets](https://github.com/changesets/changesets) for versioning and npm publishing.
 
 When your PR includes a user-facing change, add a changeset:
 
 ```bash
-npm run changeset
+pnpm run changeset
 ```
 
 Select the semver bump type (patch/minor/major) and describe the change. Commit the generated `.changeset/*.md` file with your PR.
@@ -116,9 +137,9 @@ Select the semver bump type (patch/minor/major) and describe the change. Commit 
 ### Release flow
 
 1. Merge PRs with changeset files to `main`
-2. The CI automatically opens a "Version Packages" PR that bumps the version and updates `CHANGELOG.md`
+2. CI automatically opens a "Version Packages" PR that bumps the version and updates `CHANGELOG.md`
 3. Merge the version PR to publish to npm
 
-### Setup
+### Secrets
 
-Add an `NPM_TOKEN` secret to the repo (**Settings > Secrets and variables > Actions**) with a token from [npmjs.com](https://www.npmjs.com/settings/~/tokens).
+Add an `NPM_PUBLISH_TOKEN` secret to the repo (**Settings > Secrets and variables > Actions**) with a token from [npmjs.com](https://www.npmjs.com/settings/~/tokens).
