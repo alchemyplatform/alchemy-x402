@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -23,25 +24,13 @@ jobs:
       - run: pnpm run typecheck
       - run: pnpm run build
       - run: pnpm test
-      - name: Check for changesets
+      - name: Create release PR or publish
         id: changesets
-        run: |
-          if ls .changeset/*.md 1>/dev/null 2>&1; then
-            echo "has_changesets=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_changesets=false" >> "$GITHUB_OUTPUT"
-          fi
-      - name: Version and publish
-        if: steps.changesets.outputs.has_changesets == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          pnpm run version-packages
-          VERSION=$(node -p "require('./package.json').version")
-          git add -A
-          git commit -m "chore: release v${VERSION}"
-          git push
-          pnpm run release
+        uses: changesets/action@v1
+        with:
+          publish: pnpm run release
+          title: "chore: version packages"
+          commit: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
