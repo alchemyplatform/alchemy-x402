@@ -14,14 +14,15 @@ pnpm add @alchemy/x402
 # Generate a new wallet
 npx @alchemy/x402 wallet generate
 
-# Import an existing wallet (accepts key or file path)
-npx @alchemy/x402 wallet import --private-key <key>
+# Import an existing wallet (accepts hex key or path to a key file)
+npx @alchemy/x402 wallet import --private-key 0xac09...
+npx @alchemy/x402 wallet import --private-key /path/to/keyfile
 
 # Generate a SIWE token
-npx @alchemy/x402 sign-siwe --private-key <key> --expires-after 1h
+npx @alchemy/x402 sign-siwe --private-key /path/to/keyfile --expires-after 1h
 
 # Create an x402 payment from a PAYMENT-REQUIRED header
-npx @alchemy/x402 pay --private-key <key> --payment-required <header>
+npx @alchemy/x402 pay --private-key /path/to/keyfile --payment-required <header>
 ```
 
 ## Library

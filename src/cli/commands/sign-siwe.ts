@@ -3,7 +3,10 @@ import { signSiwe } from "../../lib/siwe.js";
 
 export const signSiweCommand = new Command("sign-siwe")
   .description("Generate a SIWE authentication token")
-  .requiredOption("--private-key <key>", "Wallet private key")
+  .requiredOption(
+    "--private-key <key-or-path>",
+    "Wallet private key (hex string or path to a key file)",
+  )
   .option(
     "--expires-after <duration>",
     "Token expiration duration (e.g. 1h, 30m, 7d)",
