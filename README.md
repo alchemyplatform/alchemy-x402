@@ -95,7 +95,19 @@ All commands and functions accept private keys as:
 ### Prerequisites
 
 - Node.js >= 20
-- [pnpm](https://pnpm.io/) (specified via `packageManager` in package.json)
+- [pnpm](https://pnpm.io/)
+
+**Option A** — [mise](https://mise.jdx.dev/) (recommended, installs both Node and pnpm from `.tool-versions`):
+
+```bash
+mise install
+```
+
+**Option B** — [corepack](https://nodejs.org/api/corepack.html) (ships with Node, reads `packageManager` from package.json):
+
+```bash
+corepack enable
+```
 
 ### Getting started
 
