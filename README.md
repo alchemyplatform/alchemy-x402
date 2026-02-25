@@ -27,7 +27,13 @@ npx @alchemy/x402 pay --private-key <key> --payment-required <header>
 ## Library
 
 ```ts
-import { signSiwe, generateWallet, getWalletAddress, createPayment, buildX402Client } from "@alchemy/x402";
+import {
+  signSiwe,
+  generateWallet,
+  getWalletAddress,
+  createPayment,
+  buildX402Client,
+} from "@alchemy/x402";
 ```
 
 ### Generate a wallet
