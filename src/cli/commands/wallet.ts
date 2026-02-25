@@ -1,8 +1,9 @@
 import { Command } from "@commander-js/extra-typings";
 import { generateWallet, getWalletAddress } from "../../lib/wallet.js";
 
-export const walletCommand = new Command("wallet")
-  .description("Wallet management commands");
+export const walletCommand = new Command("wallet").description(
+  "Wallet management commands",
+);
 
 walletCommand
   .command("generate")

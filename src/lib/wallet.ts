@@ -16,7 +16,9 @@ export function resolvePrivateKey(keyOrPath: string): string {
 
 export function normalizePrivateKey(key: string): Hex {
   const resolved = resolvePrivateKey(key);
-  return resolved.startsWith("0x") ? (resolved as Hex) : (`0x${resolved}` as Hex);
+  return resolved.startsWith("0x")
+    ? (resolved as Hex)
+    : (`0x${resolved}` as Hex);
 }
 
 export function generateWallet(): WalletInfo {

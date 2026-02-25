@@ -19,7 +19,9 @@ export async function signSiwe(opts: SignSiweOptions): Promise<string> {
   if (duration === undefined) {
     throw new Error(`Invalid duration: ${opts.expiresAfter}`);
   }
-  const expirationTime = new Date(new Date(issuedAt).getTime() + duration).toISOString();
+  const expirationTime = new Date(
+    new Date(issuedAt).getTime() + duration,
+  ).toISOString();
 
   const message = [
     "x402.alchemy.com wants you to sign in with your Ethereum account:",

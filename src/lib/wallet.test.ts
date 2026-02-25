@@ -1,6 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import * as fs from "fs";
-import { resolvePrivateKey, normalizePrivateKey, generateWallet, getWalletAddress } from "./wallet.js";
+import {
+  resolvePrivateKey,
+  normalizePrivateKey,
+  generateWallet,
+  getWalletAddress,
+} from "./wallet.js";
 
 vi.mock("fs", async (importOriginal) => {
   const actual = await importOriginal<typeof import("fs")>();
@@ -14,7 +19,8 @@ vi.mock("fs", async (importOriginal) => {
 const existsSyncSpy = vi.mocked(fs.existsSync);
 const readFileSyncSpy = vi.mocked(fs.readFileSync);
 
-const TEST_KEY = "ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+const TEST_KEY =
+  "ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 const TEST_KEY_0X = `0x${TEST_KEY}`;
 const TEST_ADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 

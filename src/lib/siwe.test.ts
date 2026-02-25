@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { verifyMessage } from "viem";
-import { privateKeyToAccount } from "viem/accounts";
 import { signSiwe } from "./siwe.js";
 
-const TEST_KEY = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+const TEST_KEY =
+  "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 const TEST_ADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 
 describe("signSiwe", () => {
@@ -24,7 +24,9 @@ describe("signSiwe", () => {
     const [encoded] = token.split(".");
     const message = Buffer.from(encoded, "base64url").toString("utf-8");
 
-    expect(message).toContain("x402.alchemy.com wants you to sign in with your Ethereum account:");
+    expect(message).toContain(
+      "x402.alchemy.com wants you to sign in with your Ethereum account:",
+    );
     expect(message).toContain(TEST_ADDRESS);
     expect(message).toContain("Sign in to Alchemy Gateway");
     expect(message).toContain("URI: https://x402.alchemy.com");
