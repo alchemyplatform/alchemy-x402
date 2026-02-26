@@ -26,7 +26,8 @@
     "lint:fix": "eslint . --fix && prettier --write .",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "pnpm run build && changeset publish"
+    "release": "pnpm run build && changeset publish",
+    "cli": "node dist/cli/index.mjs"
   },
   "lint-staged": {
     "*.{js,ts,mjs,mts,cjs,cts}": "eslint --fix",
