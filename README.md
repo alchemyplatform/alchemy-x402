@@ -5,7 +5,13 @@ CLI and library for Alchemy x402 authentication and payments. Handles SIWE (Sign
 ## Install
 
 ```bash
+npm install @alchemy/x402
+# or
+yarn add @alchemy/x402
+# or
 pnpm add @alchemy/x402
+# or
+bun add @alchemy/x402
 ```
 
 ## CLI
