@@ -42,7 +42,7 @@
     "viem": "^2.46.3"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.5.2",
+    "@changesets/changelog-git": "^0.2.1",
     "@changesets/cli": "^2.29.8",
     "@eslint/js": "^10.0.1",
     "@types/ms": "^2.1.0",
