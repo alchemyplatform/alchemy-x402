@@ -12,7 +12,15 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -31,17 +39,58 @@ jobs:
           else
             echo "has_changesets=false" >> "$GITHUB_OUTPUT"
           fi
-      - name: Version and publish
+      - name: Version packages
         if: steps.changesets.outputs.has_changesets == 'true'
-        run: |
-          git config --global user.name "Alchemy Bot"
-          git config --global user.email "alchemy-bot@alchemy.com"
-          pnpm run version-packages
-          VERSION=$(node -p "require('./package.json').version")
-          git add -A
-          git commit -m "chore: release v${VERSION}"
-          git push
-          pnpm run release
+        run: pnpm run version-packages
+      - name: Create signed commit and push via API
+        if: steps.changesets.outputs.has_changesets == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+
+          # Get the current commit SHA and tree
+          head_sha=$(gh api repos/${{ github.repository }}/git/ref/heads/main --jq '.object.sha')
+          base_tree=$(gh api repos/${{ github.repository }}/git/commits/${head_sha} --jq '.tree.sha')
+
+          # Upload changed files as blobs and build tree entries
+          tree_entries='[]'
+          for file in $(git diff --name-only HEAD); do
+            blob_sha=$(gh api repos/${{ github.repository }}/git/blobs \
+              -f content="$(base64 -w 0 "$file")" \
+              -f encoding="base64" \
+              --jq '.sha')
+            tree_entries=$(echo "$tree_entries" | jq \
+              --arg path "$file" \
+              --arg sha "$blob_sha" \
+              '. + [{"path": $path, "mode": "100644", "type": "blob", "sha": $sha}]')
+          done
+
+          # Handle deleted files (consumed changesets)
+          for file in $(git diff --diff-filter=D --name-only HEAD); do
+            tree_entries=$(echo "$tree_entries" | jq \
+              --arg path "$file" \
+              '. + [{"path": $path, "mode": "100644", "type": "blob", "sha": null}]')
+          done
+
+          # Create a new tree with all changed files
+          new_tree=$(jq -n --argjson tree "$tree_entries" --arg base "$base_tree" \
+            '{base_tree: $base, tree: $tree}' | \
+            gh api repos/${{ github.repository }}/git/trees --input - --jq '.sha')
+
+          # Create a signed commit
+          new_commit=$(gh api repos/${{ github.repository }}/git/commits \
+            -f message="chore: release v${VERSION}" \
+            -f tree="${new_tree}" \
+            -f "parents[]=${head_sha}" \
+            --jq '.sha')
+
+          # Update main branch ref to point to the new commit
+          gh api repos/${{ github.repository }}/git/refs/heads/main \
+            -X PATCH \
+            -f sha="${new_commit}"
+      - name: Publish to npm
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: pnpm run release
+        env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
