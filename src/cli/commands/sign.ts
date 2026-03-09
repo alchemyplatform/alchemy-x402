@@ -1,17 +1,19 @@
 import { Command, Option } from "@commander-js/extra-typings";
 import { Architecture } from "../../types.js";
-import { createPayment } from "../../lib/payment.js";
-import { createSolanaPayment } from "../../lib/solana-payment.js";
+import { signSiwe } from "../../lib/siwe.js";
+import { signSiws } from "../../lib/siws.js";
 
-export const payCommand = new Command("pay")
-  .description("Create an x402 payment from a PAYMENT-REQUIRED header")
+export const signCommand = new Command("sign")
+  .alias("sign-siwe")
+  .description("Generate an authentication token (SIWE for EVM, SIWS for SVM)")
   .requiredOption(
     "--private-key <key-or-path>",
     "Wallet private key (hex string, base58 string, or path to a key file)",
   )
-  .requiredOption(
-    "--payment-required <header>",
-    "Raw PAYMENT-REQUIRED header value",
+  .option(
+    "--expires-after <duration>",
+    "Token expiration duration (e.g. 1h, 30m, 7d)",
+    "1h",
   )
   .addOption(
     new Option("--architecture <architecture>", "VM architecture")
@@ -19,15 +21,15 @@ export const payCommand = new Command("pay")
       .default(Architecture.EVM),
   )
   .action(async (opts) => {
-    const paymentHeader =
+    const token =
       opts.architecture === Architecture.SVM
-        ? await createSolanaPayment({
+        ? await signSiws({
             privateKey: opts.privateKey,
-            paymentRequiredHeader: opts.paymentRequired,
+            expiresAfter: opts.expiresAfter,
           })
-        : await createPayment({
+        : await signSiwe({
             privateKey: opts.privateKey,
-            paymentRequiredHeader: opts.paymentRequired,
+            expiresAfter: opts.expiresAfter,
           });
-    process.stdout.write(paymentHeader);
+    process.stdout.write(token);
   });

@@ -1,5 +1,17 @@
-import { Command } from "@commander-js/extra-typings";
+import { Command, Option } from "@commander-js/extra-typings";
+import { Architecture } from "../../types.js";
 import { generateWallet, getWalletAddress } from "../../lib/wallet.js";
+import {
+  generateSolanaWallet,
+  getSolanaWalletAddress,
+} from "../../lib/solana-wallet.js";
+
+const architectureOption = new Option(
+  "--architecture <architecture>",
+  "VM architecture",
+)
+  .choices([Architecture.EVM, Architecture.SVM] as const)
+  .default(Architecture.EVM);
 
 export const walletCommand = new Command("wallet").description(
   "Wallet management commands",
@@ -8,8 +20,12 @@ export const walletCommand = new Command("wallet").description(
 walletCommand
   .command("generate")
   .description("Generate a new wallet")
-  .action(() => {
-    const wallet = generateWallet();
+  .addOption(architectureOption)
+  .action((opts) => {
+    const wallet =
+      opts.architecture === Architecture.SVM
+        ? generateSolanaWallet()
+        : generateWallet();
     console.log(JSON.stringify(wallet, null, 2));
   });
 
@@ -18,9 +34,13 @@ walletCommand
   .description("Import an existing wallet and display its address")
   .requiredOption(
     "--private-key <key-or-path>",
-    "Wallet private key (hex string or path to a key file)",
+    "Wallet private key (hex string, base58 string, or path to a key file)",
   )
+  .addOption(architectureOption)
   .action((opts) => {
-    const address = getWalletAddress(opts.privateKey);
+    const address =
+      opts.architecture === Architecture.SVM
+        ? getSolanaWalletAddress(opts.privateKey)
+        : getWalletAddress(opts.privateKey);
     console.log(JSON.stringify({ address }, null, 2));
   });
