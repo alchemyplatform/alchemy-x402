@@ -87,6 +87,9 @@ jobs:
             -f "parents[]=${head_sha}" \
             --jq '.sha')
 
+          # Clean up stale tmp-release tag if it exists from a previous failed run
+          gh api repos/${{ github.repository }}/git/refs/tags/tmp-release -X DELETE 2>/dev/null || true
+
           # Create a temporary ref so we can fetch the API-created commit locally
           gh api repos/${{ github.repository }}/git/refs \
             -f ref="refs/tags/tmp-release" \
