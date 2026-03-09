@@ -6,7 +6,7 @@ import {
 } from "../../lib/solana-wallet.js";
 
 const networkOption = new Option("--network <network>", "Network type")
-  .choices(["evm", "solana"] as const)
+  .choices(["evm", "svm"] as const)
   .default("evm" as const);
 
 export const walletCommand = new Command("wallet").description(
@@ -19,7 +19,7 @@ walletCommand
   .addOption(networkOption)
   .action((opts) => {
     const wallet =
-      opts.network === "solana" ? generateSolanaWallet() : generateWallet();
+      opts.network === "svm" ? generateSolanaWallet() : generateWallet();
     console.log(JSON.stringify(wallet, null, 2));
   });
 
@@ -33,7 +33,7 @@ walletCommand
   .addOption(networkOption)
   .action((opts) => {
     const address =
-      opts.network === "solana"
+      opts.network === "svm"
         ? getSolanaWalletAddress(opts.privateKey)
         : getWalletAddress(opts.privateKey);
     console.log(JSON.stringify({ address }, null, 2));

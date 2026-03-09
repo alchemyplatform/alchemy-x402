@@ -14,12 +14,12 @@ export const payCommand = new Command("pay")
   )
   .addOption(
     new Option("--network <network>", "Network type")
-      .choices(["evm", "solana"] as const)
+      .choices(["evm", "svm"] as const)
       .default("evm" as const),
   )
   .action(async (opts) => {
     const paymentHeader =
-      opts.network === "solana"
+      opts.network === "svm"
         ? await createSolanaPayment({
             privateKey: opts.privateKey,
             paymentRequiredHeader: opts.paymentRequired,

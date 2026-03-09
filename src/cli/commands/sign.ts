@@ -4,9 +4,7 @@ import { signSiws } from "../../lib/siws.js";
 
 export const signCommand = new Command("sign")
   .alias("sign-siwe")
-  .description(
-    "Generate an authentication token (SIWE for EVM, SIWS for Solana)",
-  )
+  .description("Generate an authentication token (SIWE for EVM, SIWS for SVM)")
   .requiredOption(
     "--private-key <key-or-path>",
     "Wallet private key (hex string, base58 string, or path to a key file)",
@@ -18,12 +16,12 @@ export const signCommand = new Command("sign")
   )
   .addOption(
     new Option("--network <network>", "Network type")
-      .choices(["evm", "solana"] as const)
+      .choices(["evm", "svm"] as const)
       .default("evm" as const),
   )
   .action(async (opts) => {
     const token =
-      opts.network === "solana"
+      opts.network === "svm"
         ? await signSiws({
             privateKey: opts.privateKey,
             expiresAfter: opts.expiresAfter,

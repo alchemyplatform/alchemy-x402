@@ -1,6 +1,6 @@
 export type Hex = `0x${string}`;
 
-export type NetworkType = "evm" | "solana";
+export type NetworkType = "evm" | "svm";
 
 export interface EvmWalletInfo {
   privateKey: Hex;
