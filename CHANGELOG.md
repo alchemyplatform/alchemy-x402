@@ -1,5 +1,11 @@
 # @alchemy/x402
 
+## 0.5.2
+
+### Patch Changes
+
+- [#29](https://github.com/alchemyplatform/alchemy-x402/pull/29) [`7527c89`](https://github.com/alchemyplatform/alchemy-x402/commit/7527c89ab405c78db10d90d3d70f43dec08d0a22) Thanks [@hmvien](https://github.com/hmvien)! -
+
 ## 0.5.1
 
 ### Patch Changes
