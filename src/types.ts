@@ -1,11 +1,28 @@
 export type Hex = `0x${string}`;
 
-export interface WalletInfo {
+export type NetworkType = "evm" | "solana";
+
+export interface EvmWalletInfo {
   privateKey: Hex;
   address: Hex;
 }
 
+/** @deprecated Use EvmWalletInfo instead */
+export type WalletInfo = EvmWalletInfo;
+
+export interface SolanaWalletInfo {
+  privateKey: string;
+  address: string;
+}
+
 export interface SignSiweOptions {
+  privateKey: string;
+  expiresAfter?: string;
+  nonce?: string;
+  issuedAt?: string;
+}
+
+export interface SignSiwsOptions {
   privateKey: string;
   expiresAfter?: string;
   nonce?: string;

@@ -1,6 +1,6 @@
 import { createRequire } from "module";
 import { Command } from "@commander-js/extra-typings";
-import { signSiweCommand } from "./commands/sign-siwe.js";
+import { signCommand } from "./commands/sign.js";
 import { walletCommand } from "./commands/wallet.js";
 import { payCommand } from "./commands/pay.js";
 
@@ -12,7 +12,7 @@ const program = new Command()
   .description("CLI for Alchemy x402 authentication and payments")
   .version(version);
 
-program.addCommand(signSiweCommand);
+program.addCommand(signCommand);
 program.addCommand(walletCommand);
 program.addCommand(payCommand);
 
