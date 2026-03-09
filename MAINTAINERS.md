@@ -64,8 +64,11 @@ The agent will review your diff, create the `.changeset/*.md` file with the righ
 
 ## Secrets
 
-The following secrets/variables are required:
+npm publishing uses [OIDC trusted publishing](https://docs.npmjs.com/trusted-publishers/) — no npm token is needed. The workflow's `id-token: write` permission lets npm authenticate and publish directly from GitHub Actions. Provenance attestations are generated automatically.
 
-- `NPM_TOKEN` (secret) — npm access token ([granular access token](https://docs.npmjs.com/creating-and-viewing-access-tokens) linked to the GitHub OIDC provider). Publishing uses OIDC provenance — the workflow's `id-token: write` permission lets npm verify the package was built in CI.
-- `APP_ID` (variable) — GitHub App ID (used for signed release commits)
+To set up trusted publishing, link the package on [npmjs.com](https://www.npmjs.com/) to this GitHub repository (package settings > Publishing access).
+
+The following secrets/variables are required for signed release commits:
+
+- `APP_ID` (variable) — GitHub App ID
 - `APP_PRIVATE_KEY` (secret) — GitHub App private key

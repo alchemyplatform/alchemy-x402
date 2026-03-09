@@ -94,9 +94,6 @@ jobs:
           gh api repos/${{ github.repository }}/git/refs/heads/main \
             -X PATCH \
             -f sha="${new_commit}"
-      - name: Publish to npm with provenance
+      - name: Publish to npm via OIDC trusted publishing
         if: steps.changesets.outputs.has_changesets == 'true'
         run: pnpm run release
-        env:
-          NPM_CONFIG_PROVENANCE: true
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
