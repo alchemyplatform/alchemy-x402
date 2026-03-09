@@ -1,5 +1,11 @@
 # @alchemy/x402
 
+## 0.5.1
+
+### Patch Changes
+
+- [#23](https://github.com/alchemyplatform/alchemy-x402/pull/23) [`92db847`](https://github.com/alchemyplatform/alchemy-x402/commit/92db84783ed6b4d152083c7b3f81a3fc8eb705c8) Thanks [@hmvien](https://github.com/hmvien)! - Switch changelog generator from @changesets/changelog-git to @changesets/changelog-github for richer release notes with PR and contributor links
+
 ## 0.5.0
 
 ### Minor Changes
