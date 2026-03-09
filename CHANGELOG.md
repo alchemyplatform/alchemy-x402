@@ -1,5 +1,11 @@
 # @alchemy/x402
 
+## 0.6.1
+
+### Patch Changes
+
+- [#30](https://github.com/alchemyplatform/alchemy-x402/pull/30) [`be8ffc2`](https://github.com/alchemyplatform/alchemy-x402/commit/be8ffc26ac882aa3ef10903fdf29b4f8b8b5f8ff) Thanks [@hmvien](https://github.com/hmvien)! - Fix npm registry URL and update Node.js to LTS v22 in publish workflow
+
 ## 0.6.0
 
 ### Minor Changes
