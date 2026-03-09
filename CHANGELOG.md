@@ -1,5 +1,11 @@
 # @alchemy/x402
 
+## 0.6.0
+
+### Minor Changes
+
+- [`963ffed`](https://github.com/alchemyplatform/alchemy-x402/commit/963ffed45e39778a2b2e553e6549ebd8a4a267ee) Thanks [@hmvien](https://github.com/hmvien)! - test: trigger minor version publish
+
 ## 0.5.2
 
 ### Patch Changes
