@@ -1,4 +1,5 @@
 import { Command, Option } from "@commander-js/extra-typings";
+import { Architecture } from "../../types.js";
 import { createPayment } from "../../lib/payment.js";
 import { createSolanaPayment } from "../../lib/solana-payment.js";
 
@@ -13,13 +14,13 @@ export const payCommand = new Command("pay")
     "Raw PAYMENT-REQUIRED header value",
   )
   .addOption(
-    new Option("--network <network>", "Network type")
-      .choices(["evm", "svm"] as const)
-      .default("evm" as const),
+    new Option("--architecture <architecture>", "VM architecture")
+      .choices([Architecture.EVM, Architecture.SVM] as const)
+      .default(Architecture.EVM),
   )
   .action(async (opts) => {
     const paymentHeader =
-      opts.network === "svm"
+      opts.architecture === Architecture.SVM
         ? await createSolanaPayment({
             privateKey: opts.privateKey,
             paymentRequiredHeader: opts.paymentRequired,

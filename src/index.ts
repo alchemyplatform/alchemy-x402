@@ -11,9 +11,10 @@ export {
   buildSolanaX402Client,
 } from "./lib/solana-payment.js";
 
+export { Architecture } from "./types.js";
+
 export type {
   Hex,
-  NetworkType,
   EvmWalletInfo,
   WalletInfo,
   SolanaWalletInfo,

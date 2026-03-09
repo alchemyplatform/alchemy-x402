@@ -1,13 +1,17 @@
 import { Command, Option } from "@commander-js/extra-typings";
+import { Architecture } from "../../types.js";
 import { generateWallet, getWalletAddress } from "../../lib/wallet.js";
 import {
   generateSolanaWallet,
   getSolanaWalletAddress,
 } from "../../lib/solana-wallet.js";
 
-const networkOption = new Option("--network <network>", "Network type")
-  .choices(["evm", "svm"] as const)
-  .default("evm" as const);
+const architectureOption = new Option(
+  "--architecture <architecture>",
+  "VM architecture",
+)
+  .choices([Architecture.EVM, Architecture.SVM] as const)
+  .default(Architecture.EVM);
 
 export const walletCommand = new Command("wallet").description(
   "Wallet management commands",
@@ -16,10 +20,12 @@ export const walletCommand = new Command("wallet").description(
 walletCommand
   .command("generate")
   .description("Generate a new wallet")
-  .addOption(networkOption)
+  .addOption(architectureOption)
   .action((opts) => {
     const wallet =
-      opts.network === "svm" ? generateSolanaWallet() : generateWallet();
+      opts.architecture === Architecture.SVM
+        ? generateSolanaWallet()
+        : generateWallet();
     console.log(JSON.stringify(wallet, null, 2));
   });
 
@@ -30,10 +36,10 @@ walletCommand
     "--private-key <key-or-path>",
     "Wallet private key (hex string, base58 string, or path to a key file)",
   )
-  .addOption(networkOption)
+  .addOption(architectureOption)
   .action((opts) => {
     const address =
-      opts.network === "svm"
+      opts.architecture === Architecture.SVM
         ? getSolanaWalletAddress(opts.privateKey)
         : getWalletAddress(opts.privateKey);
     console.log(JSON.stringify({ address }, null, 2));

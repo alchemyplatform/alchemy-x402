@@ -1,6 +1,9 @@
 export type Hex = `0x${string}`;
 
-export type NetworkType = "evm" | "svm";
+export enum Architecture {
+  EVM = "evm",
+  SVM = "svm",
+}
 
 export interface EvmWalletInfo {
   privateKey: Hex;

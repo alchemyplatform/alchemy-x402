@@ -1,4 +1,5 @@
 import { Command, Option } from "@commander-js/extra-typings";
+import { Architecture } from "../../types.js";
 import { signSiwe } from "../../lib/siwe.js";
 import { signSiws } from "../../lib/siws.js";
 
@@ -15,13 +16,13 @@ export const signCommand = new Command("sign")
     "1h",
   )
   .addOption(
-    new Option("--network <network>", "Network type")
-      .choices(["evm", "svm"] as const)
-      .default("evm" as const),
+    new Option("--architecture <architecture>", "VM architecture")
+      .choices([Architecture.EVM, Architecture.SVM] as const)
+      .default(Architecture.EVM),
   )
   .action(async (opts) => {
     const token =
-      opts.network === "svm"
+      opts.architecture === Architecture.SVM
         ? await signSiws({
             privateKey: opts.privateKey,
             expiresAfter: opts.expiresAfter,
