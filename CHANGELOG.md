@@ -1,5 +1,15 @@
 # @alchemy/x402
 
+## 0.5.0
+
+### Minor Changes
+
+- bb30ace: Add SVM/Solana support via --architecture flag across all CLI commands, including SIWS signing, Solana wallet generation/import, and Solana payment support
+
+### Patch Changes
+
+- b7810d2: Add install instructions for npm, yarn, and bun to README
+
 ## 0.4.0
 
 ### Minor Changes
