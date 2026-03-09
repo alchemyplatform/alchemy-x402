@@ -64,4 +64,8 @@ The agent will review your diff, create the `.changeset/*.md` file with the righ
 
 ## Secrets
 
-Add an `NPM_PUBLISH_TOKEN` secret to the repo (**Settings > Secrets and variables > Actions**) with a token from [npmjs.com](https://www.npmjs.com/settings/~/tokens).
+The following secrets/variables are required:
+
+- `NPM_TOKEN` (secret) — npm access token ([granular access token](https://docs.npmjs.com/creating-and-viewing-access-tokens) linked to the GitHub OIDC provider). Publishing uses OIDC provenance — the workflow's `id-token: write` permission lets npm verify the package was built in CI.
+- `APP_ID` (variable) — GitHub App ID (used for signed release commits)
+- `APP_PRIVATE_KEY` (secret) — GitHub App private key
