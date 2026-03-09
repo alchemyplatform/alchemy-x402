@@ -56,7 +56,7 @@ jobs:
 
           # Upload changed files as blobs and build tree entries
           tree_entries='[]'
-          for file in $(git diff --name-only HEAD); do
+          for file in $(git diff --diff-filter=d --name-only HEAD); do
             blob_sha=$(gh api repos/${{ github.repository }}/git/blobs \
               -f content="$(base64 -w 0 "$file")" \
               -f encoding="base64" \
