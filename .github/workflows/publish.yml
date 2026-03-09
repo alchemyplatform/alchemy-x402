@@ -44,11 +44,10 @@ jobs:
         run: pnpm run version-packages
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-      - name: Create signed commit and push via API
+      - name: Create signed commit and push
         if: steps.changesets.outputs.has_changesets == 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           VERSION=$(node -p "require('./package.json').version")
 
@@ -81,17 +80,17 @@ jobs:
             '{base_tree: $base, tree: $tree}' | \
             gh api repos/${{ github.repository }}/git/trees --input - --jq '.sha')
 
-          # Create a signed commit
+          # Create a signed commit via API
           new_commit=$(gh api repos/${{ github.repository }}/git/commits \
             -f message="chore: release v${VERSION}" \
             -f tree="${new_tree}" \
             -f "parents[]=${head_sha}" \
             --jq '.sha')
 
-          # Update main branch ref to point to the new commit
-          gh api repos/${{ github.repository }}/git/refs/heads/main \
-            -X PATCH \
-            -f sha="${new_commit}"
+          # Update local ref and push (respects App bypass for branch protection)
+          git fetch origin main
+          git reset --hard "${new_commit}"
+          git push origin HEAD:main
       - name: Publish to npm
         if: steps.changesets.outputs.has_changesets == 'true'
         run: pnpm run release
