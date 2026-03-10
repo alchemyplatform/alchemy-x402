@@ -3,10 +3,6 @@
   "version": "0.6.2",
   "description": "CLI and library for Alchemy x402 authentication and payments",
   "type": "module",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/alchemyplatform/alchemy-x402.git"
-  },
   "exports": {
     ".": {
       "import": {
@@ -80,7 +76,6 @@
     ]
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   }
 }
