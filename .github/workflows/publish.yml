@@ -4,14 +4,15 @@ on:
   push:
     branches: [main]
 
+permissions:
+  id-token: write
+  contents: write
+
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: write
 
     steps:
       - name: Generate GitHub App token
@@ -97,3 +98,6 @@ jobs:
       - name: Publish to npm
         if: steps.changesets.outputs.has_changesets == 'true'
         run: pnpm run release
+        env:
+          NODE_AUTH_TOKEN: ""
+          NPM_CONFIG_PROVENANCE: true
