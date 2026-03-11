@@ -1,5 +1,11 @@
 # @alchemy/x402
 
+## 0.6.3
+
+### Patch Changes
+
+- [#37](https://github.com/alchemyplatform/alchemy-x402/pull/37) [`2960f9e`](https://github.com/alchemyplatform/alchemy-x402/commit/2960f9edef6e52ebf760316e896f9191760b2123) Thanks [@hmvien](https://github.com/hmvien)! - Update README with SVM/Solana support documentation including SIWS auth, Solana wallet generation, and --architecture flag usage
+
 ## 0.6.2
 
 ### Patch Changes
