@@ -97,3 +97,17 @@ jobs:
         run: pnpm run release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      - name: Create GitHub release
+        if: steps.changesets.outputs.has_changesets == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          # Extract release notes from CHANGELOG.md for this version
+          NOTES=$(sed -n "/^## ${VERSION}$/,/^## /{ /^## ${VERSION}$/d; /^## /d; p; }" CHANGELOG.md)
+          # Create a tag and release via gh CLI
+          gh release create "v${VERSION}" \
+            --repo ${{ github.repository }} \
+            --title "v${VERSION}" \
+            --notes "${NOTES}" \
+            --target main
