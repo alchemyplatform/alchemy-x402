@@ -1,5 +1,11 @@
 # @alchemy/x402
 
+## 0.6.4
+
+### Patch Changes
+
+- [#39](https://github.com/alchemyplatform/alchemy-x402/pull/39) [`d6527e2`](https://github.com/alchemyplatform/alchemy-x402/commit/d6527e270ec50cf516388d512abe080642e83580) Thanks [@hmvien](https://github.com/hmvien)! - Fix GitHub release creation in publish workflow that was lost during migration from changesets/action to manual release flow.
+
 ## 0.6.3
 
 ### Patch Changes
