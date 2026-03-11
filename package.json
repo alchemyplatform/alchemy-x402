@@ -77,6 +77,10 @@
       "esbuild"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alchemyplatform/alchemy-x402"
+  },
   "publishConfig": {
     "access": "public"
   }
