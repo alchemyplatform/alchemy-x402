@@ -1,6 +1,6 @@
 {
   "name": "@alchemy/x402",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "CLI and library for Alchemy x402 authentication and payments",
   "type": "module",
   "exports": {

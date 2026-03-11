@@ -1,5 +1,11 @@
 # @alchemy/x402
 
+## 0.6.6
+
+### Patch Changes
+
+- [#43](https://github.com/alchemyplatform/alchemy-x402/pull/43) [`3c691c6`](https://github.com/alchemyplatform/alchemy-x402/commit/3c691c65809cde413bdda1cea8881365d37f36c9) Thanks [@hmvien](https://github.com/hmvien)! - Add repository URL to package.json to fix npm publish provenance verification
+
 ## 0.6.5
 
 ### Patch Changes
