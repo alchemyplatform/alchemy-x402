@@ -103,9 +103,11 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           VERSION=$(node -p "require('./package.json').version")
+          # Extract release notes from CHANGELOG.md for this version
+          NOTES=$(sed -n "/^## ${VERSION}$/,/^## /{ /^## ${VERSION}$/d; /^## /d; p; }" CHANGELOG.md)
           # Create a tag and release via gh CLI
           gh release create "v${VERSION}" \
             --repo ${{ github.repository }} \
             --title "v${VERSION}" \
-            --notes "See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details." \
+            --notes "${NOTES}" \
             --target main
