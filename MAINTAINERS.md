@@ -47,15 +47,18 @@ pnpm changeset
 
 Follow the prompts to select the package (`@alchemy/x402`), bump type (`patch`, `minor`, or `major`), and enter a summary. This creates a `.changeset/<random-name>.md` file — commit it with your PR.
 
-### Using an AI agent
+### Using Claude Code
 
-Ask your agent to create a changeset after your changes are ready. A good prompt:
+If you use [Claude Code](https://claude.com/claude-code), run the `/changeset` skill:
 
 ```
-Create a changeset for this branch. Look at the changes since main, determine the appropriate bump type (patch/minor/major), and write a concise summary.
+/changeset          # will ask for bump type
+/changeset patch    # skip the prompt
+/changeset minor
+/changeset major
 ```
 
-The agent will review your diff, create the `.changeset/*.md` file with the right bump type and description, and commit it with your PR.
+It reviews the diff since the last release, generates a summary, and creates the `.changeset/*.md` file for you.
 
 ## Release flow
 
