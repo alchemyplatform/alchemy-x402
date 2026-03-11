@@ -1,5 +1,11 @@
 # @alchemy/x402
 
+## 0.6.5
+
+### Patch Changes
+
+- [#42](https://github.com/alchemyplatform/alchemy-x402/pull/42) [`97584c3`](https://github.com/alchemyplatform/alchemy-x402/commit/97584c31223df26af27305a5ae3078ba7aa41b7e) Thanks [@hmvien](https://github.com/hmvien)! - fix(ci): version bump for OIDC workflow changes from [#41](https://github.com/alchemyplatform/alchemy-x402/issues/41)
+
 ## 0.6.4
 
 ### Patch Changes
