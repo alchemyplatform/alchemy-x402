@@ -25,11 +25,11 @@ describe("signSiwe", () => {
     const message = Buffer.from(encoded, "base64url").toString("utf-8");
 
     expect(message).toContain(
-      "x402.alchemy.com wants you to sign in with your Ethereum account:",
+      "alchemy.com wants you to sign in with your Ethereum account:",
     );
     expect(message).toContain(TEST_ADDRESS);
     expect(message).toContain("Sign in to Alchemy Gateway");
-    expect(message).toContain("URI: https://x402.alchemy.com");
+    expect(message).toContain("URI: https://alchemy.com");
     expect(message).toContain("Version: 1");
     expect(message).toContain("Chain ID: 8453");
     expect(message).toContain("Nonce: abc123");

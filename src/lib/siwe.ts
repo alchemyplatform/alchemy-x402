@@ -24,12 +24,12 @@ export async function signSiwe(opts: SignSiweOptions): Promise<string> {
   ).toISOString();
 
   const message = [
-    "x402.alchemy.com wants you to sign in with your Ethereum account:",
+    "alchemy.com wants you to sign in with your Ethereum account:",
     account.address,
     "",
     "Sign in to Alchemy Gateway",
     "",
-    "URI: https://x402.alchemy.com",
+    "URI: https://alchemy.com",
     "Version: 1",
     "Chain ID: 8453",
     `Nonce: ${nonce}`,

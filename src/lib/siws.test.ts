@@ -31,7 +31,7 @@ describe("signSiws", () => {
 
     expect(message).toContain(TEST_ADDRESS);
     expect(message).toContain("Sign in to Alchemy Gateway");
-    expect(message).toContain("x402.alchemy.com");
+    expect(message).toContain("alchemy.com");
     expect(message).toContain("Nonce: abc123def456");
     expect(message).toContain("Issued At: 2025-01-01T00:00:00.000Z");
   });
