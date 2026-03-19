@@ -29,10 +29,10 @@ export async function signSiws(opts: SignSiwsOptions): Promise<string> {
   const siws = new SIWS({
     header: { t: "sip99" },
     payload: {
-      domain: "x402.alchemy.com",
+      domain: "alchemy.com",
       address,
       statement: "Sign in to Alchemy Gateway",
-      uri: "https://x402.alchemy.com",
+      uri: "https://alchemy.com",
       version: "1",
       nonce,
       issuedAt,
